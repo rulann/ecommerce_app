@@ -23,5 +23,7 @@ class AppBinding extends Bindings {
         () => ProductDetailsController(httpRepo: repo, cacheUtils: cacheUtils));
     Get.create(
         () => SubCategoryController(httpRepo: repo, cacheUtils: cacheUtils));
+    // Get.create(
+    //     () => SubProductController(httpRepo: repo, cacheUtils: cacheUtils));
   }
 }

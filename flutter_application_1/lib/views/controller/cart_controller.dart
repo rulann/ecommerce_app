@@ -12,4 +12,16 @@ class CartController extends GetxController {
       update();
     }
   }
+
+
+add(){
+  
+}
+  remove(){
+
+  }
+
+  view(){
+
+  }
 }

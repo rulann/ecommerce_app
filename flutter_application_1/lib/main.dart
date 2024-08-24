@@ -10,24 +10,26 @@ import 'package:flutter_application_1/views/pages/order.dart';
 import 'package:flutter_application_1/views/pages/product.dart';
 import 'package:flutter_application_1/views/pages/signup.dart';
 import 'package:flutter_application_1/views/pages/splash.dart';
+import 'package:flutter_application_1/views/pages/start.dart';
 import 'package:flutter_application_1/views/pages/subCategory.dart';
+import 'package:flutter_application_1/views/pages/sub_product.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-void main() {
+import 'package:get_storage/get_storage.dart';
+
+void main() async {
+  await GetStorage.init();
   runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialBinding: AppBinding(),
       home: Splash(),
       getPages: [
-        GetPage(name: '/', page: () => Splash()),
+        GetPage(name: '/', page: () => Start()),
         GetPage(name: '/login', page: () => Login()),
         GetPage(name: '/loginC', page: () => LoginWithController()),
         GetPage(name: '/signup', page: () => Signup()),
@@ -37,7 +39,8 @@ class MainApp extends StatelessWidget {
         GetPage(name: '/order', page: () => MyOrder()),
         GetPage(name: '/info', page: () => MyInfo()),
         GetPage(name: '/product', page: () => Item()),
-        GetPage(name: '/subCategory', page: () => SubCategory())
+        GetPage(name: '/subCategory', page: () => SubCategory()),
+        GetPage(name: '/subProducts', page: () => SubProduct())
       ],
       debugShowCheckedModeBanner: false,
     );

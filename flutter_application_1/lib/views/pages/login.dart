@@ -8,7 +8,7 @@ import 'package:flutter_application_1/views/controller/login_controller.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-class Login extends StatelessWidget {
+class Login extends GetWidget<LoginController> {
   HttpRepoImplement httpRepo = Get.put(HttpRepoImplement());
   CacheUtils cacheUtils = CacheUtils(GetStorage());
 
@@ -131,61 +131,58 @@ class Login extends StatelessWidget {
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.only(left: 10, top: 5),
-                    width: 363.45,
-                    height: 55,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColor.ShadowColor,
-                            offset: const Offset(0, 0),
-                            blurRadius: 10,
-                          ),
-                          BoxShadow(
-                            color: Colors.white,
-                            offset: const Offset(-1, -1),
-                          )
-                        ]),
-                    child: GetBuilder<LoginController>(
-                      builder: (controller) => TextField(
-                        onChanged: (value) {
-                          pw = value;
-                        },
-                        obscureText: controller.IsVisible.value,
-                        style: TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            suffixIcon: IconButton(
-                                onPressed: () {
-                                  controller.changeVisibility();
-                                },
-                                icon: controller.visibleIcon.value)),
-                      ),
-                    )),
+                  padding: EdgeInsets.only(left: 10, top: 5),
+                  width: 363.45,
+                  height: 55,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColor.ShadowColor,
+                          offset: const Offset(0, 0),
+                          blurRadius: 10,
+                        ),
+                        BoxShadow(
+                          color: Colors.white,
+                          offset: const Offset(-1, -1),
+                        )
+                      ]),
+                  child: TextField(
+                    onChanged: (value) {
+                      pw = value;
+                    },
+                    obscureText: controller.IsVisible.value,
+                    style: TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              controller.changeVisibility();
+                            },
+                            icon: controller.visibleIcon.value)),
+                  ),
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GetBuilder<LoginController>(
-                        builder: (controller) => Row(
-                          children: [
-                            Checkbox(
-                                value: controller.remember.value,
-                                onChanged: (val) {
-                                  controller.check(val);
-                                }),
-                            const Text(
-                              'Remember me',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 13.76,
-                                  fontFamily: 'DM san',
-                                  color: Color.fromRGBO(170, 166, 185, 1)),
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Checkbox(
+                              value: controller.remember.value,
+                              onChanged: (val) {
+                                controller.check(val);
+                              }),
+                          const Text(
+                            'Remember me',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 13.76,
+                                fontFamily: 'DM san',
+                                color: Color.fromRGBO(170, 166, 185, 1)),
+                          ),
+                        ],
                       ),
                       TextButton(
                         onPressed: () {},
@@ -207,8 +204,7 @@ class Login extends StatelessWidget {
                   child: MaterialButton(
                     padding: EdgeInsets.all(12),
                     onPressed: () {
-                      loginFuture = logIn(email, pw);
-                      (context as Element).markNeedsBuild();
+                      controller.login();
                     },
                     color: AppColor.ButtonsColor,
                     child: const Row(
@@ -221,25 +217,6 @@ class Login extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-                FutureBuilder<Response?>(
-                  future: loginFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final res = snapshot.data;
-                      if (res != null && res.isOk && res.statusCode == 200) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Get.toNamed('/home');
-                        });
-                      } else {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          Get.toNamed('/signup');
-                        });
-                      }
-                      return SizedBox.shrink();
-                    }
-                    return SizedBox.shrink();
-                  },
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

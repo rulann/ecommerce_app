@@ -3,6 +3,8 @@ import 'package:flutter_application_1/data/http_repo.dart';
 import 'package:flutter_application_1/views/models/best_deals_model.dart';
 import 'package:flutter_application_1/views/models/shop_by_category_model.dart';
 import 'package:flutter_application_1/views/models/slider_model.dart';
+import 'package:flutter_application_1/views/models/subCategory_model.dart';
+import 'package:flutter_application_1/views/pages/subCategory.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -18,6 +20,7 @@ class HomeController extends GetxController {
   Rx<ShopByCategoryModel?> shopByModel = Rx<ShopByCategoryModel?>(null);
   Rx<BestDealsModel?> bestDealsModel = Rx<BestDealsModel?>(null);
   Rx<SliderModel?> sliderModel = Rx<SliderModel?>(null);
+  //Rx<SubCategoryModel?> subModel = Rx<SubCategoryModel?>(null);
 
   void changeLanguage(int value) {
     selectedLang.value = value;
@@ -87,6 +90,28 @@ class HomeController extends GetxController {
   viewAll() async {
     await bestDeals(limit: 1000);
   }
+
+  // SubCategory() async {
+  //   try {
+  //     late Rx<Response?> subRes = Rx<Response?>(null);
+
+  //     subRes.value = await httpRepo.subCategory(
+  //         lang: 'en',
+  //         uid: cacheUtils.getUid(),
+  //         token: cacheUtils.getToken(),
+  //         category: cacheUtils.getCategory(),
+  //         limitC: 4,
+  //         offsetC: 0,
+  //         limitP: 20,
+  //         offsetP: 0);
+
+  //     if (subRes.value == null) return;
+
+  //     subModel.value = SubCategoryModel.fromJson(subRes.value!.body);
+  //   } catch (e) {
+  //     print(e);
+  //  }
+  //}
 
   @override
   void onInit() async {

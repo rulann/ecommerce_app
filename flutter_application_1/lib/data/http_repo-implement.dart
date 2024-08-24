@@ -224,5 +224,43 @@ class HttpRepoImplement extends GetConnect implements HttpRepo {
       'limitProduct': limitP,
       'offsetProduct': offsetP,
     });
+
+    var res = await post(ApiUrl.sub, formData);
+
+    if (res.isOk) {
+      if (res.statusCode == 200) {
+        //var resBody = jsonDecode(res.bodyString!);
+        print('sub category is ok');
+      }
+    }
+    return res;
+  }
+
+  @override
+  Future<Response?> subProducts(
+      {required String lang,
+      required String uid,
+      required String token,
+      required int limitP,
+      required int offsetP,
+      required String category}) async {
+    final formData = FormData({
+      'lang': lang,
+      'uid': uid,
+      "token": token,
+      'category': category,
+      'limitProduct': limitP,
+      'offsetProduct': offsetP,
+    });
+
+    var res = await post(ApiUrl.product, formData);
+
+    if (res.isOk) {
+      if (res.statusCode == 200) {
+        var resBody = jsonDecode(res.bodyString!);
+        print('sub product is ok: ${resBody} ');
+      }
+    }
+    return res;
   }
 }

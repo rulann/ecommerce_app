@@ -145,7 +145,7 @@ class Home extends GetWidget<HomeController> {
                               crossAxisSpacing: 10,
                               crossAxisCount: 3,
                               children: List.generate(
-                                9,
+                                12,
                                 (index) {
                                   return Column(
                                     children: [
@@ -157,8 +157,14 @@ class Home extends GetWidget<HomeController> {
                                           width: 100,
                                           child: GestureDetector(
                                             onTap: () {
+                                              Get.find<CacheUtils>()
+                                                  .setCategory(controller
+                                                      .shopByModel
+                                                      .value!
+                                                      .data[index]
+                                                      .id);
+
                                               Get.toNamed('/subCategory');
-                                              /
                                             },
                                             child: Container(
                                               decoration: BoxDecoration(

@@ -3,6 +3,7 @@ import 'package:flutter_application_1/data/cache_utils.dart';
 import 'package:flutter_application_1/data/http_repo.dart';
 import 'package:flutter_application_1/views/models/login_model.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   final HttpRepo httpRepo;

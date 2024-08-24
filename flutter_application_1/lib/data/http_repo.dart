@@ -55,4 +55,13 @@ abstract class HttpRepo {
     required int limitP,
     required int offsetP,
   });
+
+  Future<Response?> subProducts({
+    required String lang,
+    required String uid,
+    required String token,
+    required int limitP,
+    required int offsetP,
+    required String category,
+  });
 }
