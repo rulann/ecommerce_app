@@ -45,7 +45,7 @@ class SignupController extends GetxController {
       late Rx<Response?> SignUpRes = Rx<Response?>(null);
 
       SignUpRes.value = await httpRepo.signUp(
-          lang: 'en',
+          lang: cacheUtils.getLang(),
           mail: emailController.value.text,
           password: pwController.value.text,
           phone_number: phoneController.value.text,

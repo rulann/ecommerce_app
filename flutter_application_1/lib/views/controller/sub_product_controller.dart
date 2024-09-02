@@ -17,7 +17,7 @@ class SubProductController extends GetxController {
     try {
       late Rx<Response?> subProductRes = Rx<Response?>(null);
       subProductRes.value = await httpRepo.subProducts(
-        lang: 'en',
+        lang: cacheUtils.getLang(),
         uid: cacheUtils.getUid(),
         token: cacheUtils.getToken(),
         category: cacheUtils.getSubCategory(),

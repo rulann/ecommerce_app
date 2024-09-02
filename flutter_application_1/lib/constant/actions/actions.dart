@@ -1,80 +1,96 @@
 import 'dart:convert';
 
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/data/cache_utils.dart';
 import 'package:flutter_application_1/data/http_repo-implement.dart';
 import 'package:flutter_application_1/data/http_repo.dart';
+import 'package:flutter_application_1/views/models/add_to_cart_model.dart';
+import 'package:flutter_application_1/views/models/delete_from_cart_model.dart';
+import 'package:flutter_application_1/views/models/update_cart_model.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 
 class ContantActions {
   static HttpRepo httpRepo = HttpRepoImplement();
   static CacheUtils cacheUtils = CacheUtils(GetStorage());
 
-  static Future<void> login() async {
-    HttpRepo httpRepo = HttpRepoImplement();
+  static Rx<AddToCartModel?> addtoCartModel = Rx<AddToCartModel?>(null);
+  static Rx<RemoveFromCartModel?> removefromCartModel =
+      Rx<RemoveFromCartModel?>(null);
+  static Rx<UpdateCartModel?> updateModel = Rx<UpdateCartModel?>(null);
 
-    final emailController = TextEditingController();
-    final pwController = TextEditingController();
-    Rx<Response?> res = Rx<Response?>(null);
-     res.value = await httpRepo.logIn(
-        lang: Get.deviceLocale?.languageCode ?? 'en',
-        mail: emailController.text,
-        password: pwController.text);
+  static add(String vId, String quant) async {
+    try {
+      late Rx<Response?> addtoCartRes = Rx<Response?>(null);
 
-    if (res != null && res.isOk) {
-      print('${res}, email: ${emailController.text}, pw: ${pwController.text}');
-      if (res.statusCode == 200) {
-        // print('login ok');
-        var resBody = jsonDecode(res.bodyString!);
-        print('resBody: ${resBody}');
+      addtoCartRes.value = await httpRepo.addToCart(
+          lang: cacheUtils.getLang(),
+          uid: cacheUtils.getUid(),
+          token: cacheUtils.getToken(),
+          vid: vId,
+          quantity: quant);
 
-        final status = resBody['status'];
-        final message = resBody['message'];
-
-        print('status: ${status}');
-        if (status == 200) {
-          cacheUtils.Login(
-              mail: emailController.text,
-              uid: resBody['data']['uid'],
-              token: resBody['data']['token']);
-          print('token: ${resBody['data']['token']}');
-
-          Get.toNamed('/home');
-        } else if (status == 401) {
-          Get.defaultDialog(
-              title: 'user doesn\'t exist please sign up',
-              middleText: '',
-              onConfirm: () {
-                Get.toNamed('/signup');
-              },
-              onCancel: () {
-                Get.back();
-              });
-        } else if (status == 400) {
-          Get.defaultDialog(
-              title: 'Invalid username or password',
-              middleText: '',
-              onConfirm: () {
-                Get.back();
-              },
-              onCancel: () {
-                Get.back();
-              });
-        } else {
-          Get.defaultDialog(
-              title: '${message}',
-              middleText: '',
-              onConfirm: () {
-                Get.back();
-              });
-        }
-      } else {
-        print('error: ${res.statusText} error code: ${res.statusCode}');
+      if (addtoCartRes.value == null) {
+        print('addtoCartRes is null');
+        return;
       }
-    } else {
-      print('res isn\'t ok');
+
+      addtoCartModel.value = AddToCartModel.fromJson(addtoCartRes.value!.body);
+
+      print('add to cart res body: ${addtoCartRes.value!.body}');
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static remove(String item) async {
+    try {
+      late Rx<Response?> removefromCartRes = Rx<Response?>(null);
+
+      removefromCartRes.value = await httpRepo.removeFromCart(
+        lang: cacheUtils.getLang(),
+        uid: cacheUtils.getUid(),
+        token: cacheUtils.getToken(),
+        itemID: item,
+      );
+
+      if (removefromCartRes.value == null) {
+        return;
+      }
+
+      removefromCartModel.value =
+          RemoveFromCartModel.fromJson(removefromCartRes.value!.body);
+
+      print('remove from cart res body: ${removefromCartRes.value!.body}');
+      var resBody = jsonDecode(removefromCartRes.value!.body);
+      if (resBody['status'] == 200) {
+        print('Item removed successfully');
+      } else {
+        print('Failed to remove item: ${resBody['message']}');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static update(String item, String count, String order) async {
+    try {
+      late Rx<Response?> updateRes = Rx<Response?>(null);
+
+      updateRes.value = await httpRepo.updateCart(
+          lang: cacheUtils.getLang(),
+          uid: cacheUtils.getUid(),
+          token: cacheUtils.getToken(),
+          itemID: item,
+          orderID: order,
+          quantity: count);
+
+      if (updateRes.value == null) {
+        return;
+      }
+
+      updateModel.value = UpdateCartModel.fromJson(updateRes.value!.body);
+    } catch (e) {
+      print('update cart error: ${e}');
     }
   }
 }

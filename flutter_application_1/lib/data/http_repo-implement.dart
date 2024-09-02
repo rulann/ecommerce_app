@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_application_1/data/api_url.dart';
 import 'package:flutter_application_1/data/http_repo.dart';
 import 'package:get/get.dart';
@@ -261,6 +262,121 @@ class HttpRepoImplement extends GetConnect implements HttpRepo {
         print('sub product is ok: ${resBody} ');
       }
     }
+    return res;
+  }
+
+  @override
+  Future<Response?> addToCart(
+      {required String lang,
+      required String uid,
+      required String token,
+      required String vid,
+      required String quantity}) async {
+    final formData = FormData({
+      'lang': lang,
+      'uid': uid,
+      "token": token,
+      'vid': vid,
+      "quantity": quantity,
+    });
+
+    var res = await post(ApiUrl.addToCart, formData);
+
+    if (res.isOk) {
+      if (res.statusCode == 200) {
+        print('add to cart is ok');
+        var resBody = jsonDecode(res.bodyString!);
+        if (resBody['status'] == 200) {
+          Get.defaultDialog(
+            middleText: 'item added to cart',
+            title: 'Success',
+            textCancel: 'ok',
+            textConfirm: 'view cart',
+            onConfirm: () => {Get.toNamed('/cart')},
+            onCancel: () => {Get.back()},
+          );
+        } else {
+          print('add to cart error ${resBody}');
+        }
+      } else {
+        print('status code: ${res.statusCode}');
+      }
+    }
+    return res;
+  }
+
+  @override
+  Future<Response?> viewCart(
+      {required String lang,
+      required String uid,
+      required String token}) async {
+    final formData = FormData({
+      'lang': lang,
+      'uid': uid,
+      'token': token,
+    });
+
+    var res = await post(ApiUrl.viewCart, formData);
+    if (res.isOk) {
+      if (res.statusCode == 200) {
+        print('view cart is ok');
+        var resBody = jsonDecode(res.bodyString!);
+
+        if (resBody['status'] == 400) {
+          print(resBody['message']);
+        }
+      }
+    }
+    return res;
+  }
+
+  @override
+  Future<Response?> removeFromCart({
+    required String lang,
+    required String uid,
+    required String token,
+    required String itemID,
+  }) async {
+    final formData = FormData({
+      'lang': lang,
+      'uid': uid,
+      "token": token,
+      'order_item_id': itemID,
+    });
+
+    var res = await post(ApiUrl.removeFromCart, formData);
+    if (res.isOk) {
+      if (res.statusCode == 200) {
+        print('removed from cart');
+        var resBody = jsonDecode(res.bodyString!);
+        if (resBody['status'] == 400) {
+          print(resBody['message']);
+          return (resBody['message']);
+        }
+      }
+    }
+    return res;
+  }
+
+  @override
+  Future<Response?> updateCart(
+      {required String lang,
+      required String uid,
+      required String token,
+      required String itemID,
+      required String orderID,
+      required String quantity}) async {
+    final formData = FormData({
+      'lang': lang,
+      'uid': uid,
+      "token": token,
+      'order_item_id': itemID,
+      'order_id': orderID,
+      'quantity': quantity
+    });
+
+    var res = await post(ApiUrl.updateCart, formData);
+
     return res;
   }
 }

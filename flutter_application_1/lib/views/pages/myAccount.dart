@@ -19,9 +19,9 @@ class MyAccount extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         titleSpacing: 100,
-        title: const Text(
-          'My Account',
-          style: TextStyle(
+        title: Text(
+          'acc'.tr,
+          style: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 21,
             fontFamily: 'DM san',
@@ -39,29 +39,29 @@ class MyAccount extends StatelessWidget {
               children: [
                 MyAccountWidget(
                   leading: Icon(Icons.shopping_bag_outlined),
-                  text: Text('My Order'),
+                  text: Text('order'.tr),
                   tap: () => Get.toNamed('/order'),
                 ),
                 MyAccountWidget(
                   leading: Icon(Icons.person_outline_rounded),
-                  text: Text('My information'),
+                  text: Text('info'.tr),
                   tap: () => Get.toNamed('/info'),
                 ),
                 MyAccountWidget(
                   leading: Icon(Icons.payment),
-                  text: Text(' Payment Method'),
+                  text: Text('payment'.tr),
                 ),
                 MyAccountWidget(
                   leading: Icon(Icons.miscellaneous_services_rounded),
-                  text: (Text('Services')),
+                  text: (Text('services'.tr)),
                 ),
                 MyAccountWidget(
                   leading: Icon(Icons.info_outline),
-                  text: Text('About us'),
+                  text: Text('about'.tr),
                 ),
                 MyAccountWidget(
                   leading: Icon(Icons.logout),
-                  text: Text('Log out'),
+                  text: Text('logOut'.tr),
                   tap: () => {cacheUtils.SignOut(), Get.offAllNamed('/splash')},
                 ),
                 Container(
@@ -69,7 +69,7 @@ class MyAccount extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Follow us on social media',
+                        'follow'.tr,
                         style: TextStyle(
                             fontFamily: 'DM san',
                             fontSize: 18,

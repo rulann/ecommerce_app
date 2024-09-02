@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constant/actions/actions.dart';
 import 'package:flutter_application_1/constant/app_color.dart';
 import 'package:flutter_application_1/data/cache_utils.dart';
-import 'package:flutter_application_1/data/http_repo.dart';
 import 'package:flutter_application_1/views/controller/home_controller.dart';
-import 'package:flutter_application_1/views/controller/product_details_controller.dart';
 import 'package:flutter_application_1/views/widget/products_card_widget.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:restart_app/restart_app.dart';
 
 class Home extends GetWidget<HomeController> {
   @override
@@ -30,7 +30,8 @@ class Home extends GetWidget<HomeController> {
                   Get.defaultDialog(
                       confirm: MaterialButton(
                         onPressed: () {
-                          Get.back();
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Home()));
                         },
                         child: Text(
                           'OK',
@@ -46,6 +47,8 @@ class Home extends GetWidget<HomeController> {
                             groupValue: controller.selectedLang.value,
                             onChanged: (val) {
                               controller.changeLanguage(val as int);
+                              Get.find<CacheUtils>().setLang('en');
+                              Get.updateLocale(Locale('en'));
                             },
                             title: Text('English'),
                           ),
@@ -54,6 +57,8 @@ class Home extends GetWidget<HomeController> {
                             groupValue: controller.selectedLang.value,
                             onChanged: (val) {
                               controller.changeLanguage(val as int);
+                              Get.find<CacheUtils>().setLang('ar');
+                              Get.updateLocale(Locale('ar'));
                             },
                             title: Text('Arabic'),
                           )
@@ -129,7 +134,7 @@ class Home extends GetWidget<HomeController> {
                             EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                       ),
                       Text(
-                        'Shop By Category',
+                        'ShopBy'.tr,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 15,
@@ -203,7 +208,7 @@ class Home extends GetWidget<HomeController> {
                             ),
                           )),
                       Text(
-                        'Best Deals For You',
+                        'deals'.tr,
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 15,
@@ -241,9 +246,22 @@ class Home extends GetWidget<HomeController> {
                                           .products[index]
                                           .pid;
                                       Get.find<CacheUtils>().setPid(productId);
+
                                       print('this product card is pressed');
 
                                       Get.toNamed('/product');
+                                    },
+                                    add: () {
+                                      String vid = controller.bestDealsModel
+                                          .value!.data.products[index].vid;
+
+                                      ContantActions.add(vid, '1');
+                                      // print(
+                                      //     'uid: ${Get.find<CacheUtils>().getUid()}');
+                                      // print(
+                                      //     'token: ${Get.find<CacheUtils>().getToken()}');
+                                      // print(
+                                      //     'vid: ${controller.bestDealsModel.value!.data.products[index].vid}');
                                     },
                                   );
                                 },
@@ -255,7 +273,7 @@ class Home extends GetWidget<HomeController> {
                         child: MaterialButton(
                           color: AppColor.ButtonsColor,
                           child: Text(
-                            'view all',
+                            'viewAll'.tr,
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {

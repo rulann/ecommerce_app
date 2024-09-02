@@ -1,6 +1,8 @@
+import 'package:flutter_application_1/constant/locale/locale_controller.dart';
 import 'package:flutter_application_1/data/cache_utils.dart';
 import 'package:flutter_application_1/data/http_repo-implement.dart';
 import 'package:flutter_application_1/data/http_repo.dart';
+import 'package:flutter_application_1/views/controller/cart_controller.dart';
 import 'package:flutter_application_1/views/controller/home_controller.dart';
 import 'package:flutter_application_1/views/controller/login_controller.dart';
 import 'package:flutter_application_1/views/controller/product_details_controller.dart';
@@ -25,5 +27,7 @@ class AppBinding extends Bindings {
         () => SubCategoryController(httpRepo: repo, cacheUtils: cacheUtils));
     // Get.create(
     //     () => SubProductController(httpRepo: repo, cacheUtils: cacheUtils));
+    Get.create(() => CartController(httpRepo: repo, cacheUtils: cacheUtils));
+    Get.create(() => LocaleController());
   }
 }

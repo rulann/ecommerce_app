@@ -6,13 +6,15 @@ class ProductCard extends StatelessWidget {
       required this.text1,
       required this.text2,
       required this.price,
-      required this.pressed});
+      required this.pressed,
+      required this.add});
 
   final String image;
   final String text1;
   final String text2;
   final String price;
   final Function() pressed;
+  final Function() add;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,9 @@ class ProductCard extends StatelessWidget {
                           topLeft: Radius.circular(18),
                           bottomRight: Radius.circular(18))),
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      add();
+                    },
                     icon: Icon(
                       Icons.add,
                       color: Colors.white,

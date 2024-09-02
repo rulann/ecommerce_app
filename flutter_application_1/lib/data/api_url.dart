@@ -14,4 +14,12 @@ class ApiUrl {
   static const product = '${baseUrl}app/bashiti/getProducts';
 
   static const sub = '${baseUrl}app/bashiti/shopByCategory';
+
+  static const addToCart = '${baseUrl}app/bashiti/addToCart';
+
+  static const removeFromCart = '${baseUrl}app/bashiti/removeCart';
+
+  static const viewCart = '${baseUrl}app/bashiti/viewCart';
+
+  static const updateCart = '${baseUrl}app/bashiti/updateCart';
 }

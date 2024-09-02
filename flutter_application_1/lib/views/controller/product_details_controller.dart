@@ -21,7 +21,7 @@ class ProductDetailsController extends GetxController {
       late Rx<Response?> ProductRes = Rx<Response?>(null);
 
       ProductRes.value = await httpRepo.productDetails(
-        lang: 'en',
+        lang: cacheUtils.getLang(),
         uid: cacheUtils.getUid(),
         token: cacheUtils.getToken(),
         pid: cacheUtils.getPid(),

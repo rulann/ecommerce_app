@@ -24,7 +24,7 @@ class _SplashState extends State<Splash> {
     if (cacheUtils.isLoggedIn()) {
       Get.offAllNamed('/home');
     } else {
-      Get.offAllNamed('/signup');
+      Get.offAllNamed('/start');
     }
   }
 

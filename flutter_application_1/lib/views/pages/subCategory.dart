@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/constant/actions/actions.dart';
 import 'package:flutter_application_1/data/cache_utils.dart';
 import 'package:flutter_application_1/data/http_repo.dart';
+import 'package:flutter_application_1/views/controller/cart_controller.dart';
 import 'package:flutter_application_1/views/controller/sub_category_controller.dart';
 import 'package:flutter_application_1/views/controller/sub_product_controller.dart';
 import 'package:flutter_application_1/views/widget/products_card_widget.dart';
@@ -18,8 +20,8 @@ class SubCategory extends GetWidget<SubCategoryController> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           titleSpacing: 100,
-          title: const Text(
-            'Sub Categories',
+          title: Text(
+            'subC'.tr,
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 21,
@@ -32,7 +34,7 @@ class SubCategory extends GetWidget<SubCategoryController> {
             ? Center(child: CircularProgressIndicator())
             : controller.subModel.value?.data == null &&
                     controller.subModel.value?.data.categoryChilds == null
-                ? Center(child: Text('there are no product'))
+                ? Center(child: Text('noProducts'.tr))
                 : SingleChildScrollView(
                     child: Column(
                       children: [
@@ -75,7 +77,7 @@ class SubCategory extends GetWidget<SubCategoryController> {
                                           decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                               border: Border.all(
-                                                color: Color.fromRGBO(
+                                                color: const Color.fromRGBO(
                                                     190, 190, 190, 1),
                                               )),
                                           child: ClipOval(
@@ -94,7 +96,7 @@ class SubCategory extends GetWidget<SubCategoryController> {
                                     ),
                                     Text(
                                       product.title,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 11,
                                           fontFamily: 'DM san'),
@@ -106,7 +108,7 @@ class SubCategory extends GetWidget<SubCategoryController> {
                           ),
                         ),
                         Text(
-                          'Products',
+                          'products'.tr,
                           style: TextStyle(
                               fontFamily: 'DM san',
                               fontSize: 20,
@@ -116,11 +118,11 @@ class SubCategory extends GetWidget<SubCategoryController> {
                             ? Center(child: CircularProgressIndicator())
                             : controller.subProductModel.value?.data.products ==
                                     null
-                                ? Center(child: Text('there are no product'))
+                                ? Center(child: Text('noProducts'.tr))
                                 : SingleChildScrollView(
                                     child: Column(
                                     children: [
-                                      Divider(
+                                      const Divider(
                                         color: Color.fromRGBO(225, 225, 225, 1),
                                       ),
                                       GridView.builder(
@@ -139,8 +141,7 @@ class SubCategory extends GetWidget<SubCategoryController> {
                                           final product = controller.subModel
                                               .value!.data.products[index];
                                           final imageUrl = product.image;
-                                          
-                                            
+
                                           return ProductCard(
                                             image: imageUrl != "" &&
                                                     imageUrl.isNotEmpty &&
@@ -158,6 +159,16 @@ class SubCategory extends GetWidget<SubCategoryController> {
                                                   'this product card is pressed');
 
                                               Get.toNamed('/product');
+                                            },
+                                            add: () {
+                                              String vid = controller
+                                                  .subProductModel
+                                                  .value!
+                                                  .data
+                                                  .products[index]
+                                                  .vid;
+
+                                              ContantActions.add(vid, '1');
                                             },
                                           );
                                         },

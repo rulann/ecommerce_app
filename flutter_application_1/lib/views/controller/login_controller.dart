@@ -3,7 +3,6 @@ import 'package:flutter_application_1/data/cache_utils.dart';
 import 'package:flutter_application_1/data/http_repo.dart';
 import 'package:flutter_application_1/views/models/login_model.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class LoginController extends GetxController {
   final HttpRepo httpRepo;
@@ -42,25 +41,23 @@ class LoginController extends GetxController {
     remember.value = val!;
   }
 
-  login() async {
+  Future<void> login() async {
     try {
       late Rx<Response?> LoginRes = Rx<Response?>(null);
 
       LoginRes.value = await httpRepo.logIn(
-          lang: 'en',
-          mail: emailController.value.text,
-          password: pwController.value.text);
+          lang: cacheUtils.getLang(),
+          mail: emailController.text,
+          password: pwController.text);
 
-      if (loginModel.value != null) {
-        loginModel.value = LogInModel.fromJson(LoginRes.value!.body);
+      loginModel.value = LogInModel.fromJson(LoginRes.value!.body);
 
-        await cacheUtils.Login(
-          mail: loginModel.value?.data.email ?? '',
-          uid: loginModel.value?.data.uid ?? '',
-          token: loginModel.value?.data.token ?? '',
-        );
-        print(LoginRes.value?.body);
-      }
+      await cacheUtils.Login(
+        mail: loginModel.value?.data.email ?? '',
+        uid: loginModel.value!.data.uid,
+        token: loginModel.value!.data.token,
+      );
+      print(LoginRes.value?.body);
     } catch (e) {
       Get.defaultDialog(
           title: 'Error dialog',

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/app_bindings/app_binding.dart';
+import 'package:flutter_application_1/constant/locale/locale.dart';
+import 'package:flutter_application_1/constant/locale/locale_controller.dart';
 import 'package:flutter_application_1/views/pages/cart.dart';
 import 'package:flutter_application_1/views/pages/home.dart';
 import 'package:flutter_application_1/views/pages/info.dart';
@@ -13,6 +15,7 @@ import 'package:flutter_application_1/views/pages/splash.dart';
 import 'package:flutter_application_1/views/pages/start.dart';
 import 'package:flutter_application_1/views/pages/subCategory.dart';
 import 'package:flutter_application_1/views/pages/sub_product.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 
 import 'package:get_storage/get_storage.dart';
@@ -30,7 +33,7 @@ class MainApp extends StatelessWidget {
       home: Splash(),
       getPages: [
         GetPage(name: '/', page: () => Start()),
-        GetPage(name: '/login', page: () => Login()),
+        // GetPage(name: '/login', page: () => Login()),
         GetPage(name: '/loginC', page: () => LoginWithController()),
         GetPage(name: '/signup', page: () => Signup()),
         GetPage(name: '/home', page: () => Home()),
@@ -43,6 +46,8 @@ class MainApp extends StatelessWidget {
         GetPage(name: '/subProducts', page: () => SubProduct())
       ],
       debugShowCheckedModeBanner: false,
+      locale: Get.deviceLocale,
+      translations: locale(),
     );
   }
 }

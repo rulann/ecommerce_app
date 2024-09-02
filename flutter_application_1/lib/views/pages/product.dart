@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/constant/actions/actions.dart';
 import 'package:flutter_application_1/constant/app_color.dart';
 import 'package:flutter_application_1/views/controller/cart_controller.dart';
 import 'package:flutter_application_1/views/controller/product_details_controller.dart';
 import 'package:get/get.dart';
 
 class Item extends GetWidget<ProductDetailsController> {
-  RxInt itemCount = 0.obs;
+  RxInt itemCount = 1.obs;
 
   @override
   Widget build(BuildContext context) {
-    Get.put(CartController());
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(() => controller.productModel.value != null
@@ -136,7 +135,12 @@ class Item extends GetWidget<ProductDetailsController> {
                           minWidth: 200,
                           height: 45,
                           color: Colors.black,
-                          onPressed: () {},
+                          onPressed: () {
+                            ContantActions.add(
+                                controller
+                                    .productModel.value!.data.products[0].vid,
+                                itemCount.string);
+                          },
                           child: Row(
                             children: [
                               Icon(
@@ -148,7 +152,7 @@ class Item extends GetWidget<ProductDetailsController> {
                                 width: 10,
                               ),
                               Text(
-                                'Add to cart',
+                                'addC'.tr,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w700,
@@ -170,7 +174,12 @@ class Item extends GetWidget<ProductDetailsController> {
                                 ),
                                 child: IconButton(
                                   onPressed: () {
-                                    controller.dec(itemCount);
+                                    controller.dec(
+                                        itemCount,
+                                        controller.viewCartModel.value!.data
+                                            .items[0].orderItemId,
+                                        controller
+                                            .viewCartModel.value!.data.orderId);
                                   },
                                   icon: Icon(Icons.remove),
                                 ),
@@ -196,7 +205,12 @@ class Item extends GetWidget<ProductDetailsController> {
                                 ),
                                 child: IconButton(
                                     onPressed: () {
-                                      controller.inc(itemCount);
+                                      controller.inc(
+                                          itemCount,
+                                          controller.viewCartModel.value!.data
+                                              .items[0].orderItemId,
+                                          controller.viewCartModel.value!.data
+                                              .orderId);
                                     },
                                     icon: Icon(Icons.add)),
                               )

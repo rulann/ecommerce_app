@@ -64,4 +64,34 @@ abstract class HttpRepo {
     required int offsetP,
     required String category,
   });
+
+  Future<Response?> addToCart({
+    required String lang,
+    required String uid,
+    required String token,
+    required String vid,
+    required String quantity,
+  });
+
+  Future<Response?> viewCart({
+    required String lang,
+    required String uid,
+    required String token,
+  });
+
+  Future<Response?> removeFromCart({
+    required String lang,
+    required String uid,
+    required String token,
+    required String itemID,
+  });
+
+  Future<Response?> updateCart({
+    required String lang,
+    required String uid,
+    required String token,
+    required String itemID,
+    required String orderID,
+    required String quantity,
+  });
 }

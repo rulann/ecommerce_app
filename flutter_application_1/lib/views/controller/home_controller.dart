@@ -32,9 +32,20 @@ class HomeController extends GetxController {
 
   sliderImg() async {
     try {
+      String? uid = cacheUtils.getUid();
+      String? token = cacheUtils.getToken();
+
+      if (uid == null || token == null) {
+        // Handle the null case here
+        print('UID or Token is null');
+        return;
+      }
+
       late Rx<Response?> sliderRes = Rx<Response?>(null);
       sliderRes.value = await httpRepo.sliderImg(
-          lang: 'en', uid: cacheUtils.getUid(), token: cacheUtils.getToken());
+          lang: cacheUtils.getLang(),
+          uid: cacheUtils.getUid(),
+          token: cacheUtils.getToken());
 
       if (sliderRes.value == null) return;
 
@@ -49,7 +60,7 @@ class HomeController extends GetxController {
       late Rx<Response?> shopByRes = Rx<Response?>(null);
 
       shopByRes.value = await httpRepo.shopByCategory(
-          lang: 'en',
+          lang: cacheUtils.getLang(),
           uid: cacheUtils.getUid(),
           token: cacheUtils.getToken(),
           limit: 10000,
@@ -70,7 +81,7 @@ class HomeController extends GetxController {
       late Rx<Response?> bestDealsRes = Rx<Response?>(null);
 
       bestDealsRes.value = await httpRepo.bestDeals(
-          lang: 'en',
+          lang: cacheUtils.getLang(),
           uid: cacheUtils.getUid(),
           token: cacheUtils.getToken(),
           limit: limit,
@@ -96,7 +107,7 @@ class HomeController extends GetxController {
   //     late Rx<Response?> subRes = Rx<Response?>(null);
 
   //     subRes.value = await httpRepo.subCategory(
-  //         lang: 'en',
+  //         lang: cacheUtils.getLang(),
   //         uid: cacheUtils.getUid(),
   //         token: cacheUtils.getToken(),
   //         category: cacheUtils.getCategory(),

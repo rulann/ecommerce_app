@@ -16,7 +16,8 @@ class Login extends GetWidget<LoginController> {
   String pw = '';
 
   Future<Response?> logIn(String mail, String password) async {
-    final res = await httpRepo.logIn(lang: 'en', mail: email, password: pw);
+    final res = await httpRepo.logIn(
+        lang: cacheUtils.getLang(), mail: email, password: pw);
 
     if (res != null) {
       print('${res}, email: ${mail}, pw: ${password}');

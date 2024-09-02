@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/constant/actions/actions.dart';
 import 'package:flutter_application_1/data/cache_utils.dart';
+import 'package:flutter_application_1/views/controller/cart_controller.dart';
 import 'package:flutter_application_1/views/controller/sub_product_controller.dart';
 import 'package:flutter_application_1/views/widget/products_card_widget.dart';
 import 'package:get/get.dart';
@@ -16,8 +18,8 @@ class SubProduct extends GetWidget<SubProductController> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         titleSpacing: 100,
-        title: const Text(
-          'Sub products',
+        title: Text(
+          'subP'.tr,
           style: TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 21,
@@ -38,7 +40,7 @@ class SubProduct extends GetWidget<SubProductController> {
                   controller.subProductModel.value!.status != 200 ||
                   controller.subProductModel.value?.status == 400 ||
                   controller.subModel.value?.status == 400
-              ? Center(child: Text('there are no product'))
+              ? Center(child: Text('noProducts'.tr))
               : SingleChildScrollView(
                   child: Column(
                   children: [
@@ -78,10 +80,18 @@ class SubProduct extends GetWidget<SubProductController> {
                           pressed: () {
                             String productId = controller.subProductModel.value!
                                 .data.products[index].pid;
+
                             Get.find<CacheUtils>().setPid(productId);
+
                             print('this product card is pressed');
 
                             Get.toNamed('/product');
+                          },
+                          add: () {
+                            String vid = controller.subProductModel.value!.data
+                                .products[index].vid;
+
+                            ContantActions.add(vid, '1');
                           },
                         );
                       },

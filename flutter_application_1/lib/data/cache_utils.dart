@@ -15,17 +15,19 @@ class CacheUtils {
   static const _pidKey = 'pid';
   static const _categoryKey = 'category';
   static const _subCategoryKey = 'category';
+  static const _vidKey = 'vid';
+  static const _lang = 'lang';
 
   bool isLoggedIn() {
     return _getStorage.hasData(_uidKey) && _getStorage.hasData(_tokenKey);
   }
 
   getUid() {
-    return _uidKey;
+    return _getStorage.read(_uidKey) ?? '';
   }
 
   getToken() {
-    return _tokenKey;
+    return _getStorage.read(_tokenKey) ?? '';
   }
 
   void setPid(String pid) {
@@ -54,6 +56,22 @@ class CacheUtils {
 
   saveUserSession(final token) {
     _getStorage.write(_tokenKey, token);
+  }
+
+  setVid(String id) {
+    _getStorage.write(_vidKey, id);
+  }
+
+  getVid() {
+    return _vidKey;
+  }
+
+  setLang(String code) {
+    _getStorage.write(_lang, code);
+  }
+
+  getLang() {
+    return _getStorage.read(_lang);
   }
 
   Future<void> Login(
